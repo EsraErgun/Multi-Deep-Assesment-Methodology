@@ -1,0 +1,35 @@
+clear;
+clc;
+close all;
+tic;
+m=9; % Number of data functions
+
+Nout=1;
+
+M=10;
+l=10;
+%%%%%%%%%%%data%%%%%%%
+%%%%%%%%%canada%france%germany%italy%japan%russia%turkey%uk%usa%
+data= importdata('C:\Users\Nisa\Desktop\nisa_makale\G8_multi_function\data\data19\italy19.xlsx');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+mm=m;
+an=zeros(m,M+1);
+fileID = fopen('alfar.dat','w'); % in this file we put all optimized alfa values
+for i=1:m
+[an(i,:)]=F1(fileID,M,data(i,:),0.1);
+end
+fclose(fileID);
+fileID = fopen('alfa.dat','w'); % in this file we put all optimized alfa values
+[niumin,MAPE,MAPE1,A,B,C,Ffitting]=fitting(fileID,data(Nout,:),l,M,mm,1,an);
+fclose(fileID);
+sonuc=[niumin, MAPE]
+% xlswrite('modeling_2019_M10_l10.xlsx',sonuc, 'C1:D1')
+xlswrite('modeling_2019_F_M10_l10.xlsx',Ffitting, 'B31:U31')
+xlswrite('modeling_2019_M11_l10.xlsx',sonuc, 'C31:D31')
+
+% NORM=norm(C-A*B);
+% norm(C);
+% norm(A*B);
+% [~,D]=eig(A);
+% det(A);
+toc;
